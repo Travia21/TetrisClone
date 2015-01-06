@@ -17,7 +17,7 @@ import java.util.Set;
 public class ServerManager {
     private Set<PrintWriter> connections;
 
-    public void ServerManager() {
+    public ServerManager() {
         try{
             ServerSocket server = new ServerSocket(9898);
             System.out.println("Server started.");
