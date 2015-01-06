@@ -15,13 +15,12 @@ import java.util.Set;
  * Created by Steven on 1/6/15.
  */
 public class ServerManager {
-    private Set<PrintWriter> connections;
+    private Set<PrintWriter> connections = new HashSet<PrintWriter>();
 
     public ServerManager() {
         try{
             ServerSocket server = new ServerSocket(9898);
             System.out.println("Server started.");
-            connections = new HashSet<PrintWriter>();
             while(true){
                 try{
                     new Connection(server.accept()).start();
@@ -31,16 +30,6 @@ public class ServerManager {
                 }
             }
         }catch(IOException e){}
-    }
-
-    private void broadcast(String message){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm zzz");
-        String user = "<" + sdf.format(date) + "> Steven: ";
-
-        for(PrintWriter connection : connections){
-            connection.println(user + message);
-        }
     }
 
     private class Connection extends Thread {
@@ -54,15 +43,26 @@ public class ServerManager {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 connections.add(out);
+                System.out.println("Connection established.");
             }catch(IOException e){ }
         }
 
         @Override
         public void run(){
-            while(true){
+            while (true) {
                 try {
                     broadcast(in.readLine());
-                }catch(IOException e){ }
+                } catch (IOException e) { }
+            }
+        }
+
+        private void broadcast(String message){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm zzz");
+            String user = "<" + sdf.format(date) + "> Steven: ";
+
+            for(PrintWriter connection : connections){
+                connection.println(user + message);
             }
         }
     }

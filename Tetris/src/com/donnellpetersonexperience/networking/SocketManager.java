@@ -39,7 +39,7 @@ public class SocketManager extends Thread {
     }
 
     public void write(String str){
-        out.print(str);
+        out.println(str);
     }
 
     public void writeToWindow(String str){
