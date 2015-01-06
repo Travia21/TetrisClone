@@ -2,6 +2,8 @@ package com.donnellpetersonexperience.networking;
 
 import com.donnellpetersonexperience.builder.WindowBuilder;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,27 +21,25 @@ public class SocketManager extends Thread {
 
     public SocketManager(Socket sock) {
         socket = sock;
-        System.out.println("Connection to server established.");
         window = new WindowBuilder(this);
+        System.out.println("Connection to server established.");
         try{
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
-        }catch(IOException e){}
+        }catch(IOException e){ }
     }
 
     @Override
     public void run(){
         while(true){
             try {
-                String input = in.readLine();
-                if (input.equals("q")) break;
-                writeToWindow(input);
+                writeToWindow(in.readLine());
             }catch(IOException e){ }
         }
     }
 
     public void write(String str){
-        out.print(str);
+        out.println(str);
     }
 
     public void writeToWindow(String str){

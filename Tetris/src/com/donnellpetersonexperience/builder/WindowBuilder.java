@@ -45,7 +45,12 @@ public class WindowBuilder {
 
     private void textBuilder(){
         textField = new JTextField("", 30);
-            textField.addActionListener(new Actions());
+            textField.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    socket.write(textField.getText());
+                    textField.setText("");
+                }
+            });
         textArea = new JTextArea("", 10, 30);
             textArea.setEditable(false);
     }
@@ -53,24 +58,15 @@ public class WindowBuilder {
     private void buttonBuilder(){
         button = new JButton();
         button.setText("ENTER");
-        button.addActionListener(new Actions());
+        button.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                socket.write(textField.getText());
+                textField.setText("");
+            }
+        });
     }
 
     public void display(String str){
         textArea.append(str + "\n");
-    }
-
-
-    private class Actions implements ActionListener {
-        /**
-         * This action should send the TextField through whatever connection the program has set up.
-         * @param e
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String text = textField.getText();
-            textField.setText("");
-            socket.write(text);
-        }
     }
 }

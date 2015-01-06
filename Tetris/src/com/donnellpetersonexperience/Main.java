@@ -12,9 +12,9 @@ import java.net.Socket;
  */
 public class Main {
     public static void main(String[] args){
-        String IPAddress = JOptionPane.showInputDialog("Enter server's IP address: ");
+        //String IPAddress = JOptionPane.showInputDialog("Enter server's IP address: ");
         try{
-            new SocketManager(new Socket(IPAddress, 9898));
+            new SocketManager(new Socket(/* IPAddress */"192.168.1.245", 9898)).start();
         }catch(IOException e){
             new ServerManager();
             try{
