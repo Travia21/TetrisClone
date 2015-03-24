@@ -7,27 +7,53 @@ import java.awt.*;
  */
 public class Block {
     private Color blockColor;
+    private int blockType;
     private int xPos;
     private int yPos;
 
-    public Block(int blockType) {
+    public Block(int bType) {
+        blockType = bType;
         switch(blockType) {
-            case 0: blockColor = Color.YELLOW;
-            case 1: blockColor = Color.CYAN;
-            case 2: blockColor = Color.YELLOW;
-            case 3: blockColor = Color.CYAN;
-            case 4: blockColor = Color.YELLOW;
-            case 5: blockColor = Color.CYAN;
-            case 6: blockColor = Color.YELLOW;
-                default: blockColor = Color.GRAY;
+            case 0:
+                blockColor = Color.YELLOW;
+                break;
+            case 1:
+                blockColor = Color.CYAN;
+                break;
+            case 2:
+                blockColor = new Color(103, 5, 255);
+                break;
+            case 3:
+                blockColor = Color.BLUE;
+                break;
+            case 4:
+                blockColor = Color.ORANGE;
+                break;
+            case 5:
+                blockColor = Color.GREEN;
+                break;
+            case 6:
+                blockColor = Color.RED;
+                break;
+                default:
+                    blockColor = Color.GRAY;
+                    break;
         }
     }
 
-    public void changeX(int pos){
-        xPos += pos;
+    public void setXPos(int pos){
+        xPos = pos;
     }
 
-    public void changeY(int pos){
-        yPos += pos;
+    public void setYPos(int pos){
+        yPos = pos;
     }
+
+    public int getXPos(){ return xPos; }
+
+    public int getYPos(){ return yPos; }
+
+    public Color getBlockColor(){ return blockColor; }
+
+    public int getBlockType(){ return blockType; }
 }

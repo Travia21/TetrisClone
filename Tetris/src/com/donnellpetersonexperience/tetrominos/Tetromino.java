@@ -20,7 +20,7 @@ public abstract class Tetromino {
 
     public void fall(){
         for(Block block : blocks)
-            block.changeY(1);
+            block.setYPos(1);
     }
 
     public void drop(){
@@ -29,12 +29,12 @@ public abstract class Tetromino {
 
     public void moveLeft(){
         for(Block block : blocks)
-            block.changeX(-1);
+            block.setXPos(-1);
     }
 
     public void moveRight(){
         for(Block block : blocks)
-            block.changeX(1);
+            block.setXPos(1);
     }
 
     public void rotateLeft(){}
