@@ -1,7 +1,6 @@
 package com.donnellpetersonexperience.board;
 
 import com.donnellpetersonexperience.tetrominos.Block;
-import com.sun.deploy.security.BlacklistedCerts;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -34,8 +33,7 @@ public class Board extends Canvas{
         Graphics g = bs.getDrawGraphics();
         g.clearRect(0,0,getWidth(),getHeight());
 
-        //Do rendering stuff here.
-        {
+        {//Do rendering stuff here.
             g.setColor(new Color(0x6D6D6D));
             for(int x = 0; x < BOARD_WIDTH; x+=BLOCK_SIZE)
                 for(int y = 0; y < BOARD_HEIGHT; y+=BLOCK_SIZE)

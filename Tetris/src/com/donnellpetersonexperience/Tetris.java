@@ -7,10 +7,6 @@ import com.donnellpetersonexperience.tetrominos.Block;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 
 /**
  * Created by Steven on 2/1/2015.
@@ -23,7 +19,10 @@ public class Tetris{
     private final static Color REAL_ORANGE = new Color(255, 120, 0);
     private final static String title = "TetrisClone";
 
-    JPanel screen;
+    private JPanel startScreen, gameScreen;
+    final static String START = "Start Screen", GAME = "Game Screen";
+
+    private JPanel screen;
 
     private static Keyboard kb;
     private static Mouse mouse;
@@ -31,27 +30,11 @@ public class Tetris{
     private int xPos = 0, yPos = 0;
     private boolean running = false;
 
-    private void addComponents(Container pane){
-        screen = new JPanel(new CardLayout());
-        screen.add(startup());
-    }
-
-    private JPanel startup(){
-        JPanel mainMenuPanel = new JPanel();
-        Settings s = new Settings();
-
-        String[] zeroTen = new String[10];
-        for(int i = 1; i <= 10; i++) {
-            zeroTen[i-1] = String.valueOf(i);
-        }
-        JComboBox<String> gameSpeed = new JComboBox<String>(zeroTen);
-        gameSpeed.setEditable(false);
-        gameSpeed.setSelectedIndex(4);
-
-        JButton button = new JButton("Enter");
-        button.addActionListener(e -> s.setGameSpeed(Integer.parseInt((String)gameSpeed.getSelectedItem())));
-    }
-
+    /**
+     * Starts by setting the position of the first Block. Then handles timing and screen refreshing.
+     *
+     * @param gameScreen the frame the game runs in.
+     */
     private void begin(JPanel gameScreen) {
         Board board = new Board();
         gameScreen.add(board);
@@ -109,13 +92,15 @@ public class Tetris{
                 avgTotal += updates;
                 average = avgTotal/avgI;
                 System.out.println(frames +  " UPS, " + updates + " FPS, " + average + " average FPS.");
-                frame.setTitle(title + "  |  " + Integer.toString(updates));
                 frames = 0;
                 updates = 0;
             }
         }
     }
 
+    /**
+     * Handles the positioning of the active Block.
+     */
     private void update(){
         kb.update();
         if(kb.up) yPos = -1;
@@ -131,13 +116,32 @@ public class Tetris{
         }
     }
 
+    private void addComponents(Container pane){
+        screen = new JPanel(new CardLayout());
+        initiateGameScreen();
+        initiateStartScreen();
+
+        screen.add(startScreen, START);
+        screen.add(gameScreen, GAME);
+
+        pane.add(screen, BorderLayout.CENTER);
+    }
+
+    /**
+     * Handles the screen's display on the frame and registers the mouse and keyboard listeners.
+     */
     private static void createAndShowGUI() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(width, height);
+        frame.setTitle("Tetris Clone");
+        frame.setVisible(true);
 
-        JPanel startScreen = new JPanel();
-        JPanel gameScreen = new JPanel();
+        try{
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
 
         kb = new Keyboard();
         frame.addKeyListener(kb);
@@ -148,7 +152,39 @@ public class Tetris{
         tetris.addComponents(frame.getContentPane());
 
         frame.pack();
-        frame.setVisible(true);
+    }
+
+    private void initiateStartScreen(){
+        startScreen = new JPanel();
+        startScreen.setName(START);
+        startScreen.setBackground(Color.BLACK);
+
+        JTextArea startText = new JTextArea("Hello Zachary.");
+        JButton button = new JButton("Button");
+        button.addActionListener(e -> swapScreens(gameScreen));
+
+        startScreen.add(startText, BorderLayout.NORTH);
+        startScreen.add(button, BorderLayout.SOUTH);
+    }
+
+    private void initiateGameScreen(){
+        gameScreen = new JPanel();
+        gameScreen.setName(GAME);
+
+        begin(gameScreen);
+    }
+
+    private void swapScreens(JPanel nextScreen){
+        String name;
+
+        if(nextScreen.getName().equals(GAME)){
+            name = GAME;
+        }else{
+            name = START;
+        }
+
+        CardLayout cardLayout = (CardLayout)screen.getLayout();
+        cardLayout.show(screen, name);
     }
 
     public static void main(String[] args){

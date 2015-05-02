@@ -1,4 +1,4 @@
-package com.donnellpetersonexperience;
+package com.donnellpetersonexperience.input;
 
 /**
  * Created by Steven on 3/21/2015.
