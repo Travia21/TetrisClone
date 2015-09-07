@@ -25,9 +25,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) { }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -40,20 +38,16 @@ public class Mouse implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) { }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) { }
 
     /*
-      * Invoked when a mouse button is pressed on a component and then dragged.
-      * (non-Javadoc)
-      * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
-      */
+    * Invoked when a mouse button is pressed on a component and then dragged.
+    * (non-Javadoc)
+    * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+    */
     @Override
     public void mouseDragged(MouseEvent e) {
         mouseX = e.getX();
